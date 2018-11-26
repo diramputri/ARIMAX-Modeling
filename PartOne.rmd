@@ -1,0 +1,22 @@
+---
+title: "ARIMAX Modeling: Ice Cream Consumption"
+author: "Andira Putri"
+output: pdf_document
+---
+
+In this project, we do ten exercises from: https://www.r-bloggers.com/forecasting-arimax-model-exercises-part-5/. We will be working on the `Icecream` data set from the `Ecdat` package.
+
+```{r,message=FALSE}
+#install.packages("Ecdat")
+library(Ecdat)
+data(Icecream)
+```
+
+#### Exercise 1. Load the dataset, and plot the variables `cons` (ice cream consumption), `temp` (temperature), and `income`.
+
+```{r}
+t=1:30 #time values
+df=cbind(t,Icecream) #add time values to dataset
+library(GGally)
+ggpairs(df)
+```
