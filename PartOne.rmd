@@ -20,3 +20,23 @@ df=cbind(t,Icecream) #add time values to dataset
 library(GGally)
 ggpairs(df)
 ```
+
+#### Exercise 2. Estimate an ARIMA model for the data on ice cream consumption using the auto.arima function. Then pass the model as input to the forecast function to get a forecast for the next 6 periods (both functions are from the forecast package).
+
+#### Exercise 3.
+
+#### Exercise 4.
+
+#### Exercise 5.
+
+#### Exercise 6.
+
+#### Exercise 7.
+
+#### Exercise 8.
+
+#### Exercise 9.
+
+#### Exercise 10.
+
+
