@@ -28,12 +28,13 @@ ggpairs(Icecream)
 library(forecast)
 arima=auto.arima(Icecream$cons)
 fc=forecast(arima)
-autoplot(fc)
+summary(fc)
 ```
 
 #### Exercise 3. Plot the obtained forecast with the autoplot.forecast function from the forecast package.
 
 ```{r}
+autoplot(fc)
 ```
 
 #### Exercise 4. Use the accuracy function from the forecast package to find the mean absolute scaled error (MASE) of the fitted ARIMA model.
@@ -58,28 +59,28 @@ autoplot(fc)
 
 #### Exercise 8. The function that estimates the ARIMA model can input more additional regressors, but only in the form of a matrix. Create a matrix with the following columns:
 
-values of the temperature variable,
+* values of the temperature variable,
 
-values of the income variable,
+* values of the income variable,
 
-values of the income variable lagged one period,
+* values of the income variable lagged one period,
 
-values of the income variable lagged two periods.
+* values of the income variable lagged two periods.
 
-Print the matrix. Note: the last three columns can be created by prepending two NA's to the vector of values of the income variable, and using the obtained vector as an input to the embed function (with the dimension parameter equal to the number of columns to be created).
+#### Print the matrix. Note: the last three columns can be created by prepending two NA's to the vector of values of the income variable, and using the obtained vector as an input to the embed function (with the dimension parameter equal to the number of columns to be created).
 
 ```{r}
 ```
 
 #### Exercise 9. Use the obtained matrix to fit three extended ARIMA models that use the following variables as additional regressors:
 
-temperature, income,
+* temperature, income,
 
-temperature, income at lags 0, 1,
+* temperature, income at lags 0, 1,
 
-temperature, income at lags 0, 1, 2.
+* temperature, income at lags 0, 1, 2.
 
-Examine the summary for each model, and find the model with the lowest value of the Akaike information criterion (AIC). Note that the AIC cannot be used for comparison of ARIMA models with different orders of integration (expressed by the middle terms in the model specifications) because of a difference in the number of observations. For example, an AIC value from a non-differenced model, ARIMA (p, 0, q), cannot be compared to the corresponding value of a differenced model, ARIMA (p, 1, q).
+#### Examine the summary for each model, and find the model with the lowest value of the Akaike information criterion (AIC). Note that the AIC cannot be used for comparison of ARIMA models with different orders of integration (expressed by the middle terms in the model specifications) because of a difference in the number of observations. For example, an AIC value from a non-differenced model, ARIMA (p, 0, q), cannot be compared to the corresponding value of a differenced model, ARIMA (p, 1, q).
 
 ```{r}
 ```
