@@ -8,30 +8,53 @@ In this project, we do ten exercises from: https://www.r-bloggers.com/forecastin
 
 ```{r,message=FALSE}
 #install.packages("Ecdat")
-library(Ecdat)
-data(Icecream)
+#library(Ecdat)
+#data(Icecream)
+Icecream=read.csv("Icecream.csv")
 ```
 
 #### Exercise 1. Load the dataset, and plot the variables `cons` (ice cream consumption), `temp` (temperature), and `income`.
 
 ```{r}
-t=1:30 #time values
-df=cbind(t,Icecream) #add time values to dataset
+#t=1:30 #time values
+#df=cbind(t,Icecream) #add time values to dataset
 library(GGally)
-ggpairs(df)
+ggpairs(Icecream)
 ```
 
-#### Exercise 2. Estimate an ARIMA model for the data on ice cream consumption using the auto.arima function. Then pass the model as input to the forecast function to get a forecast for the next 6 periods (both functions are from the forecast package).
+#### Exercise 2. Estimate an ARIMA model for the data on ice cream consumption using the auto.arima function. Then pass the model as input to the `forecast` function to get a forecast for the next 6 periods (both functions are from the forecast package).
+
+```{r}
+library(forecast)
+arima=auto.arima(Icecream$cons)
+fc=forecast(arima)
+autoplot(fc)
+```
 
 #### Exercise 3. Plot the obtained forecast with the autoplot.forecast function from the forecast package.
 
+```{r}
+```
+
 #### Exercise 4. Use the accuracy function from the forecast package to find the mean absolute scaled error (MASE) of the fitted ARIMA model.
+
+```{r}
+```
 
 #### Exercise 5. Estimate an extended ARIMA model for the consumption data with the temperature variable as an additional regressor (using the auto.arima function). Then make a forecast for the next 6 periods (note that this forecast requires an assumption about the expected temperature; assume that the temperature for the next 6 periods will be represented by the following vector: `fcast_temp <- c(70.5, 66, 60.5, 45.5, 36, 28))`. Plot the obtained forecast.
 
+```{r}
+```
+
 #### Exercise 6. Print summary of the obtained forecast. Find the coefficient for the temperature variable, its standard error, and the MASE of the forecast. Compare the MASE with the one of the initial forecast.
 
+```{r}
+```
+
 #### Exercise 7. Check the statistical significance of the temperature variable coefficient using the the coeftest function from the lmtest package. Is the coefficient statistically significant at 5% level?
+
+```{r}
+```
 
 #### Exercise 8. The function that estimates the ARIMA model can input more additional regressors, but only in the form of a matrix. Create a matrix with the following columns:
 
@@ -45,6 +68,9 @@ values of the income variable lagged two periods.
 
 Print the matrix. Note: the last three columns can be created by prepending two NA's to the vector of values of the income variable, and using the obtained vector as an input to the embed function (with the dimension parameter equal to the number of columns to be created).
 
+```{r}
+```
+
 #### Exercise 9. Use the obtained matrix to fit three extended ARIMA models that use the following variables as additional regressors:
 
 temperature, income,
@@ -55,6 +81,11 @@ temperature, income at lags 0, 1, 2.
 
 Examine the summary for each model, and find the model with the lowest value of the Akaike information criterion (AIC). Note that the AIC cannot be used for comparison of ARIMA models with different orders of integration (expressed by the middle terms in the model specifications) because of a difference in the number of observations. For example, an AIC value from a non-differenced model, ARIMA (p, 0, q), cannot be compared to the corresponding value of a differenced model, ARIMA (p, 1, q).
 
+```{r}
+```
+
 #### Exercise 10. Use the model found in the previous exercise to make a forecast for the next 6 periods, and plot the forecast. (The forecast requires a matrix of the expected temperature and income for the next 6 periods; create the matrix using the `fcast_temp` variable, and the following values for expected income: 91, 91, 93, 96, 96, 96). Find the mean absolute scaled error of the model, and compare it with the ones from the first two models in this exercise set.
 
+```{r}
+```
 
