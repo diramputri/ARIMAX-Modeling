@@ -117,5 +117,6 @@ summary(arimax4)
 #### Exercise 10. Use the model found in the previous exercise to make a forecast for the next 6 periods, and plot the forecast. (The forecast requires a matrix of the expected temperature and income for the next 6 periods; create the matrix using the `fcast_temp` variable, and the following values for expected income: 91, 91, 93, 96, 96, 96). Find the mean absolute scaled error of the model, and compare it with the ones from the first two models in this exercise set.
 
 ```{r}
+
 ```
 
