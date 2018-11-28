@@ -12,3 +12,21 @@ data(econ5)
 ```
 
 Consider the data set `econ5`. The seasonal component has been removed from the data. Concentrating on unemployment $(U_t)$, GNP $(G_t)$, and consumption $(C_t)$, fit a vector ARMA model to the data after first logging each series, and then removing the linear trend. That is, fit a vector ARMA model to $x_t=(x_{1t},x_{2t},x_{3t})^t$ where, for example, $x_{1t}=log(U_t)-\hat{\beta_0}-\hat{\beta_1}t$, where $\hat{\beta_0}$ and $\hat{\beta_1}$ are the least squares estimates for the regression of $log(U_t)$ on time t. Run a complete set of diagnostics on the residuals.
+
+#### Model Fitting
+
+```{r}
+#looking at plots just for giggles
+t=c(1:161)
+u=econ5$unemp
+g=econ5$gnp
+c=econ5$consum
+df=data.frame(t,u,g,c)
+library(GGally)
+ggpairs(df)
+```
+
+#### Diagnostics
+
+```{r}
+```
