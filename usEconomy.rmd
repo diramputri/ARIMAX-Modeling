@@ -1,0 +1,7 @@
+---
+title: "ARIMAX Modeling - US Economy"
+author: "Andira Putri"
+output: pdf_document
+---
+
+This exercise is taken from **Time Series Analysis and Its Applications: With R Examples** by Shumway and Stoffer. We will be using the `econ5` data set from the `astsa` library. `econ5` is a five quarterly economic series containing the following numeric variables: quarterly U.S. unemployment, GNP, consumption, and government investment, and private investment. There are 161 observtions spanning from 1948-III to 1988-II.
