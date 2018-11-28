@@ -63,12 +63,16 @@ summary(arimax1)
 summary(fc2)
 ```
 
+The coefficient for temperature is 0.0028, and its standard error is 0.0007. The MASE is 0.7354, which is lower than the MASE of our initial forecast without the temperature regressor.
+
 #### Exercise 7. Check the statistical significance of the temperature variable coefficient using the the `coeftest` function from the `lmtest` package. Is the coefficient statistically significant at 5% level?
 
 ```{r}
 library(lmtest)
 coeftest(arimax1)
 ```
+
+The p-value is 0.00009756, so the coefficient is statistically significant at the 5% level.
 
 #### Exercise 8. The function that estimates the ARIMA model can input more additional regressors, but only in the form of a matrix. Create a matrix with the following columns:
 
@@ -83,12 +87,12 @@ coeftest(arimax1)
 #### Print the matrix. Note: the last three columns can be created by prepending two NA's to the vector of values of the income variable, and using the obtained vector as an input to the embed function (with the dimension parameter equal to the number of columns to be created).
 
 ```{r}
-#income variable lagged one period
-in1=lag(Icecream$income,1)
-#income variable lagged two periods
-in2=lag(Icecream$income,2)
-#create matrix
-df2=cbind(Icecream$temp,Icecream$income,in1,in2)
+#create matrix one column at a time
+#start with temperature
+temp=matrix(Icecream$temp,ncol=1)
+inc=c(NA,NA,Icecream$income)
+in1=embed(inc,3)
+df2=cbind(temp,in1)
 print(df2)
 ```
 
@@ -100,23 +104,30 @@ print(df2)
 
 * temperature, income at lags 0, 1, 2.
 
-#### Examine the summary for each model, and find the model with the lowest value of the Akaike information criterion (AIC). Note that the AIC cannot be used for comparison of ARIMA models with different orders of integration (expressed by the middle terms in the model specifications) because of a difference in the number of observations. For example, an AIC value from a non-differenced model, ARIMA (p, 0, q), cannot be compared to the corresponding value of a differenced model, ARIMA (p, 1, q).
+#### Examine the summary for each model, and find the model with the lowest value of the Akaike information criterion (AIC). Note that the AIC cannot be used for comparison of ARIMA models with different orders of integration (expressed by the middle terms in the model specifications) because of a difference in the number of observations. For example, an AIC value from a non-differenced model, ARIMA(p,0,q), cannot be compared to the corresponding value of a differenced model, ARIMA(p,1,q).
 
 ```{r}
 #temperature and income
-arimax2=auto.arima(Icecream$cons,xreg=Icecream$temp+Icecream$income)
+arimax2=auto.arima(Icecream$cons,xreg=df2[,1:2])
 summary(arimax2)
 #temperature and income at lags 0,1
-arimax3=auto.arima(Icecream$cons,xreg=Icecream$temp+Icecream$income+in1)
+arimax3=auto.arima(Icecream$cons,xreg=df2[,1:3])
 summary(arimax3)
 #temperature and income at lags 0,1,2
-arimax4=auto.arima(Icecream$cons,xreg=Icecream$temp+Icecream$income+in1+in2)
+arimax4=auto.arima(Icecream$cons,xreg=df2[,1:4])
 summary(arimax4)
 ```
+
+The order of integration (d value) of all ARIMAX models are the same, so we can use AIC values to find the best model. The first model with regressors temperature and lag=0 income has the lowest AIC value, so it is the best.
 
 #### Exercise 10. Use the model found in the previous exercise to make a forecast for the next 6 periods, and plot the forecast. (The forecast requires a matrix of the expected temperature and income for the next 6 periods; create the matrix using the `fcast_temp` variable, and the following values for expected income: 91, 91, 93, 96, 96, 96). Find the mean absolute scaled error of the model, and compare it with the ones from the first two models in this exercise set.
 
 ```{r}
-
+fcast_inc<-c(91,91,93,96,96,96)
+temp_inc<-matrix(fcast_temp,fcast_inc,nrow=6,ncol=2)
+arimaxfc=forecast(arimax2,xreg=temp_inc)
+summary(arimaxfc)
+autoplot(arimaxfc)
 ```
 
+Our MASE is 0.7291, and it is the lowest among the models without independent regressors and with just temperature as a regressor.
