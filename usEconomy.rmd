@@ -6,24 +6,32 @@ output: pdf_document
 
 This exercise is taken from **Time Series Analysis and Its Applications: With R Examples** by Shumway and Stoffer. We will be using the `econ5` data set from the `astsa` library. `econ5` is a five quarterly economic series containing the following numeric variables: quarterly U.S. unemployment, GNP, consumption, government investment, and private investment. There are 161 observtions spanning from 1948-III to 1988-II.
 
-```{r}
-library(astsa)
-data(econ5)
-```
-
 Consider the data set `econ5`. The seasonal component has been removed from the data. Concentrating on unemployment $(U_t)$, GNP $(G_t)$, and consumption $(C_t)$, fit a vector ARMA model to the data after first logging each series, and then removing the linear trend. That is, fit a vector ARMA model to $x_t=(x_{1t},x_{2t},x_{3t})^t$ where, for example, $x_{1t}=log(U_t)-\hat{\beta_0}-\hat{\beta_1}t$, where $\hat{\beta_0}$ and $\hat{\beta_1}$ are the least squares estimates for the regression of $log(U_t)$ on time t. Run a complete set of diagnostics on the residuals.
 
-#### Model Fitting
+#### Curious Plotting
 
-```{r}
-#looking at plots just for giggles
+```{r,echo=FALSE}
+library(astsa)
+data(econ5)
+# create data frame for variables of interest
 t=c(1:161)
 u=econ5$unemp
 g=econ5$gnp
 c=econ5$consum
 df=data.frame(t,u,g,c)
-library(GGally)
-ggpairs(df)
+# plots
+library(gridExtra)
+library(ggplot2)
+p1<-ggplot(df,aes(t,u))+geom_jitter()+ggtitle("Unemployment vs. Time")
+p2<-ggplot(df,aes(t,g))+geom_jitter()+ggtitle("GNP vs. Time")
+p3<-ggplot(df,aes(t,c))+geom_jitter()+ggtitle("Consumption vs. Time")
+grid.arrange(p1,p2,p3,ncol=2)
+```
+
+#### Model Fitting
+
+```{r,echo=FALSE}
+#looking at plots just for giggles
 ```
 
 #### Diagnostics
