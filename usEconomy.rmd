@@ -35,6 +35,8 @@ p3<-ggplot(df,aes(t,c))+geom_jitter()+ggtitle("Consumption vs. Time")
 grid.arrange(p1,p2,p3,ncol=2)
 ```
 
+From the plots, GNP and consumption would be interesting variables to use as regressors. We can use time, GNP, and consumption to predict unemployment in the United States.
+
 #### Model Fitting
 
 ```{r}
@@ -54,12 +56,16 @@ summary(varma)
 checkresiduals(varma)
 ```
 
+Our residuals are normally-distributed for the most part, and there is no clear spike in the ACF diagram. The Ljung-Box test has a p-value of 0.05297 at the 5% level, so the data is independently distributed and there are no remarkable autocorrelations at any lag. This is a desirable result.
+
 #### Forecasting
+
+We randomly generate vectors for `log(g)` and `log(c)` to use as input values for our forecasting model. Both vectors are of length 8, so we aim to forecast the next 8 quarters' `log(u)` values. Note that for multiple regressors, we have to combine the vectors into a matrix for our `forecast()` function to work properly.
 
 ```{r,echo=FALSE}
 # create matrix of regressor values
-log.g_fc<-c(8.3,8.31,8.32,8.33,8.34,8.35)
-log.c_fc<-c(7.86,7.862,7.869,7.9,7.92,7.925)
+log.g_fc<-c(8.3,8.31,8.32,8.33,8.34,8.35,8.36,8.366)
+log.c_fc<-c(7.86,7.862,7.869,7.9,7.92,7.925,8,8.16)
 fc=forecast(varma,xreg=log.g_fc+log.c_fc)
 autoplot(fc)
 ```
