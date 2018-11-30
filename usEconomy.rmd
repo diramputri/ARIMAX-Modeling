@@ -8,20 +8,27 @@ This exercise is taken from **Time Series Analysis and Its Applications: With R 
 
 Consider the data set `econ5`. The seasonal component has been removed from the data. Concentrating on unemployment $(U_t)$, GNP $(G_t)$, and consumption $(C_t)$, fit a vector ARMA model to the data after first logging each series, and then removing the linear trend. That is, fit a vector ARMA model to $x_t=(x_{1t},x_{2t},x_{3t})^t$ where, for example, $x_{1t}=log(U_t)-\hat{\beta_0}-\hat{\beta_1}t$, where $\hat{\beta_0}$ and $\hat{\beta_1}$ are the least squares estimates for the regression of $log(U_t)$ on time t. Run a complete set of diagnostics on the residuals.
 
+```{r,include=FALSE}
+#for data set
+library(astsa)
+data(econ5)
+#for plots
+library(gridExtra)
+library(ggplot2)
+#for auto.arima and checkresiduals
+library(forecast)
+```
+
 #### Curious Plotting
 
 ```{r,echo=FALSE}
-library(astsa)
-data(econ5)
 # create data frame for variables of interest
 t=c(1:161)
 u=econ5$unemp
 g=econ5$gnp
 c=econ5$consum
 df=data.frame(t,u,g,c)
-# plots
-library(gridExtra)
-library(ggplot2)
+# exploratory plots
 p1<-ggplot(df,aes(t,u))+geom_jitter()+ggtitle("Unemployment vs. Time")
 p2<-ggplot(df,aes(t,g))+geom_jitter()+ggtitle("GNP vs. Time")
 p3<-ggplot(df,aes(t,c))+geom_jitter()+ggtitle("Consumption vs. Time")
@@ -37,7 +44,6 @@ log.g=log(g)
 log.c=log(c)
 log.df=cbind(t,log.u,log.g,log.c)
 # fit vector ARMA model
-library(forecast)
 varma=auto.arima(log.u,xreg=log.g+log.c)
 summary(varma)
 ```
@@ -46,4 +52,14 @@ summary(varma)
 
 ```{r,echo=FALSE}
 checkresiduals(varma)
+```
+
+#### Forecasting
+
+```{r,echo=FALSE}
+# create matrix of regressor values
+log.g_fc<-c(8.3,8.31,8.32,8.33,8.34,8.35)
+log.c_fc<-c(7.86,7.862,7.869,7.9,7.92,7.925)
+fc=forecast(varma,xreg=log.g_fc+log.c_fc)
+autoplot(fc)
 ```
