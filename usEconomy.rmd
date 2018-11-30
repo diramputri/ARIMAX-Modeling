@@ -30,11 +30,20 @@ grid.arrange(p1,p2,p3,ncol=2)
 
 #### Model Fitting
 
-```{r,echo=FALSE}
-#looking at plots just for giggles
+```{r}
+# log transform
+log.u=log(u)
+log.g=log(g)
+log.c=log(c)
+log.df=cbind(t,log.u,log.g,log.c)
+# fit vector ARMA model
+library(forecast)
+varma=auto.arima(log.u,xreg=log.g+log.c)
+summary(varma)
 ```
 
 #### Diagnostics
 
-```{r}
+```{r,echo=FALSE}
+checkresiduals(varma)
 ```
